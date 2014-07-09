@@ -1,0 +1,77 @@
+/*Base*/
+.center-container{
+	margin: 100px auto;
+	max-width: 640px;
+}
+/*Base*/
+
+/*Quote Bar*/
+.quote-bar{
+	text-align: center;
+}
+.quote-bar *{
+	display: inline-block;
+	margin: 0 auto;
+}
+/*Quote Bar*/
+
+/*Quotes*/
+.quotes-list{
+	list-style: none;
+	overflow: hidden;
+}
+.quotes-list *{
+	overflow: hidden;
+}
+
+.quotes-list p{
+	position: relative;
+	top: 15px;
+}
+
+.quotes-list li:nth-child(odd){
+	border-top: 1px solid #333;
+	border-bottom: 1px solid #333;
+}
+.quotes-list button{
+	margin-top: 5px;
+	border-radius: 20px;
+	float: right;
+}
+.page-box{
+	text-align: right;
+}
+.rate{
+	position: relative;
+	bottom: 10px;
+	right: 10px;
+	float: right;
+}
+.author{
+	margin-left: 10px;
+}
+
+.quote-box{
+	position: relative;
+	height: 609px;
+}
+.page-box{
+	position: absolute;
+	bottom: 0;
+	right: 0;
+}
+/*Quotes*/
+
+/*Popups*/
+
+.add-quote{
+	display: none;
+	max-width: 500px;
+	max-height: 500px;
+}
+
+.random-quote{
+	display: none;
+}
+
+/*Popups*/

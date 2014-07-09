@@ -2,13 +2,62 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Untitled</title>
+  <title>The Hub</title>
   <link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.min.css">
   <link rel="stylesheet" type="text/css" href="main.css">
 </head>
 <body>
-	
+
+	<div class="center-container">
+		<div class="quote-bar">
+			<div><a href="#add" class="add">Add a Quote</a></div>
+			<div><a href="#random" class="random">Random Quote</a></div>
+		</div>
+		<div class="quote-box">
+			<script id="quotes-template" type="text/x-handlebars-template">
+				<ul class="quotes-list">
+					{{#each quotes}}
+						<li> 
+							<button class="delete">x</button>
+							<p><q class="text">{{text}}</q></p>
+							<p class="author">-{{author}}</p>
+							<div class="rate">
+								<a href="#1"><img src="" alt="star"></a>
+								<a href="#2"><img src="" alt="star"></a>
+								<a href="#3"><img src="" alt="star"></a>
+								<a href="#4"><img src="" alt="star"></a>
+								<a href="#5"><img src="" alt="star"></a>
+							</div>
+						</li>
+					{{/each}}
+				</ul>
+			</script>
+			<div id="quotes"></div>
+			<div class="page-box">
+				<a href="#back" id="back">←</a>
+				<a href="#foward" id="foward">→</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="add-quote">
+		<h3>Quote:</h3>
+		<textarea name="quote" id="quote-input" cols="30" rows="3" required></textarea>
+		<h3>Author:</h3>
+		<textarea name="author" id="author-input" cols="30" rows="1" required></textarea>
+		<button class="quote-submit">Submit</button>
+	</div>
+
+	<div class="random-quote">
+		<p><q class="random-text"></q></p>
+		<p class="random-author"></p>
+		<button>Close</button>
+	</div>
+
   <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+  <script src="handlebars-v1.3.0.js"></script>
+  <script src="jquery.bpopup.min.js"></script>
   <script src="main.js"></script>
 
 </body>
