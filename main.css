@@ -1,5 +1,10 @@
+body{
+	background-color: #00BCD4;
+}
 /*Base*/
 .center-container{
+	border-radius: 4px;
+	background-color: #FAFAFA;
 	margin: 100px auto;
 	max-width: 640px;
 }
@@ -7,11 +12,32 @@
 
 /*Quote Bar*/
 .quote-bar{
+	border-bottom: none;
+	border-radius: 2px;
+	background-color: #0097A7;
+	color: #FAFAFA;
+	padding-bottom: 20px;
+	padding-top: 20px;
 	text-align: center;
+	margin-bottom: 50px;
+
 }
 .quote-bar *{
+	font-weight: bold;
+	padding: 5px;
+	list-style: none;
+	text-decoration: none;
 	display: inline-block;
 	margin: 0 auto;
+}
+.quote-bar *:hover{
+	background-color: #11A8B8;
+}
+.center-quote{
+	border-left: 1px solid #111111;
+}
+.undo{
+	display: none;
 }
 /*Quote Bar*/
 
@@ -50,15 +76,20 @@
 .author{
 	margin-left: 10px;
 }
+.author:hover{
+	cursor: pointer;
+}
 
 .quote-box{
 	position: relative;
 	height: 609px;
+	padding-right: 35px;
+
 }
 .page-box{
 	position: absolute;
-	bottom: 0;
-	right: 0;
+	bottom: 30px;
+	right: 35px;
 }
 /*Quotes*/
 
@@ -75,3 +106,15 @@
 }
 
 /*Popups*/
+
+/*Title*/
+
+
+.title{
+	color: #FAFAFA;
+	position: relative;
+	top: -160px;
+	left: 0;
+	-webkit-transform:rotate(-30deg);}
+
+/*Title*/

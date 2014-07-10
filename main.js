@@ -1,4 +1,5 @@
 var index = 0;
+var lastDeleted;
 var storedQuotes = {
 	quotes: [
 		{
@@ -34,37 +35,94 @@ var storedQuotes = {
 		{
 			text: 'I didn’t fail the test. I just found 100 ways to do it wrong.',
 			author: 'Benjamin Franklin',
-			rating: [2,2,6]
+			rating: [2,2,4]
 		},
+		{
+			text: 'There are two ways of constructing a software design. One way is to make it so simple that there are obviously no deficiencies. And the other way is to make it so complicated that there are no obvious deficiencies.',
+			author: 'C.A.R. Hoare',
+			rating: [5]
+		}
 	]
 };
 
-function addQuotes(page){
+function addRating(){
+	$('.rate > a').on('click', function(e){
+  		e.preventDefault();
+  		var clicked = $(this).index();
+  		var updated = $(this).closest('li').find('q').text();
+		var newStoredQuotes = {
+		quotes: $.grep(storedQuotes.quotes, function(e){ 
+			if (e.text === updated) {
+				e.rating.push(clicked+1);
+			};
+			
+			return e; 
+		})
+		}
+		localStorage.setItem('storedQuotes', JSON.stringify(newStoredQuotes));
+		storedQuotes = newStoredQuotes;
+		addQuotes(index);
+  	});
+}
+
+function addQuotes(page, undo){
 	var sliceCount =  (page * 5) + 5 || 0;
 	page = Math.abs((page * 5)) || 0;
 	var source   = $("#quotes-template").html();
 	var template = Handlebars.compile(source);
+	if (undo) {
+		storedQuotes.quotes.push(undo);
+	};
+	var sorted = _.sortBy(storedQuotes.quotes, function(quote){
+		var avg = 0;
+		for (var i = 0; i < quote.rating.length; i++) {
+			avg += quote.rating[i];
+		};
+		avg /= quote.rating.length;
+		var stars = Math.round(avg);
+		quote.avg = [];
+		quote.left = [];
+		for (var i = 0; i < stars; i++) {
+			quote.avg.push({star: 'x'});
+		};
+		for (var i = quote.avg.length; i < 5; i++) {
+			quote.left.push({openStar: 'o'});
+		}
+		return -avg;
+	});
+
 	var modifiedData = {
-		quotes: storedQuotes.quotes.slice(page,sliceCount)
+		quotes: sorted.slice(page,sliceCount)
 	}
+
 	var data = modifiedData;
-	console.log(page,sliceCount);
+
 	$("#quotes").empty( );
 	$("#quotes").append(template(data));
+
+	addRating();
+	authorSort();
 }
 
 function addRemove(){
 	$(document).on('click', '.delete', function(e){
 		e.preventDefault();
-		var updated = $(this).closest('li').find('q').text()
-		$(this).closest('li').remove()
+		var updated = $(this).closest('li').find('q').text();
+		$(this).closest('li').remove();
 		var newStoredQuotes = {
 		quotes: $.grep(storedQuotes.quotes, function(e){ 
-			return e.text !== updated; 
+			if (e.text !== updated) {
+				return e;
+			}else{
+				lastDeleted = e;
+			}
 		})
 		}
 		localStorage.setItem('storedQuotes', JSON.stringify(newStoredQuotes));
 		storedQuotes = newStoredQuotes;
+		addQuotes(index);
+		$('.undo').closest('div').css('border-left', '1px solid #111111')
+		$('.undo').show();
 	});
 }
 
@@ -105,13 +163,41 @@ function quoteBar(){
 }
 
 function addPagination(){
-	$('#foward').on('click', function(){
-  		index += 1;
-  		addQuotes(index);
+	$('#foward').on('click', function(e){
+  		e.preventDefault();
+  		if ((index + 1) < (storedQuotes.quotes.length / 5)) {
+  			index += 1;
+  			addQuotes(index);
+  		};
   	});
-  	$('#back').on('click', function(){
-  		index -= 1;
-  		addQuotes(index);
+  	$('#back').on('click', function(e){
+  		e.preventDefault();
+  		if (index > 0) {
+  			index -= 1;
+  			addQuotes(index);
+  		};
+  	});
+}
+
+function undoDelete(){
+	$('.undo').on('click', function(){
+  		addQuotes(index, lastDeleted);
+  		$(this).hide();
+  	});
+}
+
+function authorSort(){
+	$('.author').on('click', function(){
+  		var updated = $(this).closest('li').find('.author').text().split('-').join('');
+		var newStoredQuotes = {
+		quotes: $.grep(storedQuotes.quotes, function(e){ 
+			if (e.author === updated) {
+				return e; 
+			};
+		})
+		}
+		storedQuotes = newStoredQuotes;
+		addQuotes(index);
   	});
 }
 
@@ -127,8 +213,6 @@ $(document).on('ready', function() {
   	addQuotes(index);
   	addRemove();
   	addPagination();
-
-  	
-
+  	undoDelete();
 
 });
