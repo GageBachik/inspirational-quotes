@@ -182,6 +182,7 @@ function addPagination(){
 function undoDelete(){
 	$('.undo').on('click', function(){
   		addQuotes(index, lastDeleted);
+  		$('.undo').closest('div').css('border-left', '0px solid #111111')
   		$(this).hide();
   	});
 }
